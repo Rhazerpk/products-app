@@ -34,20 +34,21 @@ export const authLogout = async (token: string) => {
     }
 };
 
-export const authCheckStatus = async () => {
+export const authRegister = async (email: string, password: string, fullName: string) => {
+    email = email.toLowerCase();
+
     try {
-        const { data } = await productsApi.get<AuthResponse>('/auth/check-status');
+        const { data } = await productsApi.post<AuthResponse>('/auth/register', { email, password, fullName });
         return returnUserToken(data);
     } catch (error) {
         return null;
     }
 };
 
-export const authRegister = async (email: string, password: string, fullName: string) => {
-    email = email.toLowerCase();
 
+export const authCheckStatus = async () => {
     try {
-        const { data } = await productsApi.post<AuthResponse>('/auth/register', { email, password, fullName });
+        const { data } = await productsApi.get<AuthResponse>('/auth/check-status');
         return returnUserToken(data);
     } catch (error) {
         return null;

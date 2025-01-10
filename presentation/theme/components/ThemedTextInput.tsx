@@ -6,6 +6,8 @@ import { useRef, useState } from "react";
 
 interface Props extends TextInputProps {
   icon?: keyof typeof Ionicons.glyphMap;
+  rightIcon?: string;
+  onRightIconPress?: () => void;
 }
 
 const ThemedTextInput = ({ icon, ...rest }: Props) => {
