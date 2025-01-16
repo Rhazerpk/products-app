@@ -1,9 +1,9 @@
-import { View, ActivityIndicator, Text } from "react-native";
 import React, { useEffect } from "react";
 import { useAuthStore } from "@/presentation/auth/store/useAuthStore";
 import { Redirect, Stack } from "expo-router";
 import { useThemeColor } from "@/presentation/theme/hooks/useThemeColor";
 import LogoutIconButton from "@/presentation/auth/components/LogoutIconButton";
+import ThemedActivityIndicator from "@/presentation/theme/components/ThemedActivityIndicator";
 
 const CheckAuthenticationLayout = () => {
   const { status, checkStatus } = useAuthStore();
@@ -14,18 +14,7 @@ const CheckAuthenticationLayout = () => {
   }, []);
 
   if (status === "checking") {
-    return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          marginBottom: 5,
-        }}
-      >
-        <ActivityIndicator />
-      </View>
-    );
+    return <ThemedActivityIndicator />;
   }
 
   if (status === "unauthenticated") {
@@ -49,6 +38,13 @@ const CheckAuthenticationLayout = () => {
         options={{
           title: "Productos",
           headerLeft: () => <LogoutIconButton />,
+        }}
+      />
+
+      <Stack.Screen
+        name="product/[id]"
+        options={{
+          title: "Producto",
         }}
       />
     </Stack>

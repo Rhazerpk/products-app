@@ -13,9 +13,19 @@ import React, { useEffect } from "react";
 import "react-native-reanimated";
 import "../global.css";
 import { useThemeColor } from "@/presentation/theme/hooks/useThemeColor";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+      staleTime: 1000 * 60 * 5,
+    },
+  },
+});
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -40,17 +50,18 @@ export default function RootLayout() {
     <GestureHandlerRootView
       style={{ backgroundColor: backgroundColor, flex: 1 }}
     >
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <Stack
-          screenOptions={{
-            headerShown: false,
-          }}
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider
+          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
         >
-          {/* <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" /> */}
-        </Stack>
-        <StatusBar style="auto" />
-      </ThemeProvider>
+          <Stack
+            screenOptions={{
+              headerShown: false,
+            }}
+          ></Stack>
+          <StatusBar style="auto" />
+        </ThemeProvider>
+      </QueryClientProvider>
     </GestureHandlerRootView>
   );
 }

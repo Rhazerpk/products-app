@@ -17,7 +17,7 @@ import { router } from "expo-router";
 const LoginScreen = () => {
   const { height } = useWindowDimensions();
   const backgroundColor = useThemeColor({}, "background");
-  const { login, register } = useAuthStore();
+  const { login } = useAuthStore();
 
   const [isPosting, setIsPosting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
